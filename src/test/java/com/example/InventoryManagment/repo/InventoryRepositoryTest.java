@@ -1,23 +1,22 @@
-package com.example.InventoryManagment;
+package com.example.InventoryManagment.repo;
 
 
+import com.example.InventoryManagment.Inventory;
+import com.example.InventoryManagment.InventoryBuilderTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.in;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InventoryRepositoryTest {
 
     @Mock
-    InventoryRepositoryImp repository;
+    InventoryRepository repository;
 
     InventoryBuilderTest builder;
     public InventoryRepositoryTest(){
@@ -36,5 +35,32 @@ public class InventoryRepositoryTest {
         // Assert
         assertThat(result).isEqualTo(inventory); // Use AssertJ to assert that the returned inventory is the same as the one we passed in
         verify(repository).save(inventory); // Verify that the save method was called with the correct argument
+    }
+
+    @Test
+    public void should_deleteInventory_WithId(){
+        //arrange
+        Integer id=1;
+
+        //act
+        repository.delete(id);
+
+        //assert
+        verify(repository,times(1)).delete(id);
+
+    }
+    @Test
+    public void should_returnInventoryWhenGivenId(){
+        //arrange
+        Integer id=1;
+        Inventory inventory=builder.build();
+        when(repository.findById(any(Integer.class))).thenReturn(inventory);
+
+        //act
+        Inventory result=repository.findById(id);
+
+        //assert
+        assertThat(result).isEqualTo(inventory);
+        verify(repository,times(1)).findById(id);
     }
 }
