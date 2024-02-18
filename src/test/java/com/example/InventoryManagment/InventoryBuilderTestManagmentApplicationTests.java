@@ -6,7 +6,9 @@ import org.junit.runner.RunWith;
 
 
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = {"pretty"})
+@CucumberOptions(features = {"src/test/resources/InventoryManagment.feature"},
+        glue = "steps",
+        plugin = {"pretty"})
 public class InventoryBuilderTestManagmentApplicationTests {
 
 
